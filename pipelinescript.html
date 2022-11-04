@@ -1,0 +1,29 @@
+pipeline{
+    agent any
+    tools { 
+        maven 'Maven' 
+    }
+    stages{
+        stage("Git Clone"){
+            steps{
+                git 'https://github.com/shreyashkadam/hello-world.git'
+            }
+        }
+        stage("Build"){
+            steps{
+                bat 'mvn clean install'
+            }
+        }
+        stage("Deploy"){
+            steps{
+               bat 'copy C:\\ProgramData\\Jenkins\\.jenkins\\workspace\\demo_pipeline\\webapp\\target\\webapp.war "C:\\Program Files\\apache-tomcat-9.0.65\\webapps"'
+            }
+        }	
+    }
+}
+
+mvn --version
+mvn archetype:generate -DgroupId=com.mycompany.app -DartifactId=my-app -DarchetypeArtifactId=maven-archetype-quickstart -DarchetypeVersion=1.4 -DinteractiveMode=false
+cd my-app
+mvn package
+java -cp target/my-app-1.0-SNAPSHOT.jar com.mycompany.app.App
